@@ -5,7 +5,9 @@
     <body>
         <div class="container">
             <nav th:replace="layout :: menu">(menu)</nav>
-            <table>
+            <a th:href="@{/produto/cadastro}" class="btn btn-dark">Novo Produto</a>
+
+            <table class="table">
                 <thead>
                     <tr>
                         <th>Nome</th>
@@ -13,7 +15,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="produto : ${produtos}">
+                    <tr class="table-primary" th:each="produto : ${produtos}">
                         <td th:text="${produto.nome}"></td>
                         <td th:text="${#numbers.formatCurrency(produto.valor)}">R$100</td>
                     </tr>
