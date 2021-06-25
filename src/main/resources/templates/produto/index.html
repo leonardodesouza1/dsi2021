@@ -5,19 +5,21 @@
     <body>
         <div class="container">
             <nav th:replace="layout :: menu">(menu)</nav>
-            <a th:href="@{/produto/cadastro}" class="btn btn-dark">Novo Produto</a>
+            <a th:href="@{/produto/form}" class="btn btn-dark">Novo Produto</a>
 
             <table class="table">
                 <thead>
                     <tr>
                         <th>Nome</th>
                         <th>Valor</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="table-primary" th:each="produto : ${produtos}">
                         <td th:text="${produto.nome}"></td>
                         <td th:text="${#numbers.formatCurrency(produto.valor)}">R$100</td>
+                        <td><a th:href="@{'/produto/alterar/'+${produto.idProduto}}"class="btn btn-light" >...</td>
                     </tr>
                 </tbody>
             </table>
