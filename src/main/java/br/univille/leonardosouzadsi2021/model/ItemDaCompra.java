@@ -1,32 +1,58 @@
 package br.univille.leonardosouzadsi2021.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-public class ItemDaCompra {
+public class ItemDaCompra implements Serializable, GenericEntity<ItemDaCompra> {
     
     @Id
-    private long idProduto;
-    private int qtdCompra;
-    private float precoUnitario;
-    
-    public long getIdProduto() {
-        return idProduto;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    private Produto produto;
+
+    private int quantidade;
+
+    public void setId(Long id) {
+        this.id = id;
     }
-    public void setIdProduto(long idProduto) {
-        this.idProduto = idProduto;
+
+    public Produto getProduto() {
+        return produto;
     }
-    public int getQtdCompra() {
-        return qtdCompra;
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
     }
-    public void setQtdCompra(int qtdCompra) {
-        this.qtdCompra = qtdCompra;
+
+    public int getQuantidade() {
+        return quantidade;
     }
-    public float getPrecoUnitario() {
-        return precoUnitario;
+
+    public void setQuantidade(int quantidade) {
+        this.quantidade = quantidade;
     }
-    public void setPrecoUnitario(float precoUnitario) {
-        this.precoUnitario = precoUnitario;
+
+    @Override
+    public void update(ItemDaCompra objeto) {
+        this.id = objeto.getId();
+        this.produto = objeto.getProduto();
+        this.quantidade = objeto.getQuantidade();
+    }
+
+    @Override
+    public Long getId() {
+        return this.id;
+    }
+
+    @Override
+    public ItemDaCompra createNewInstance() {
+        ItemDaCompra newInstance = new ItemDaCompra();
+        newInstance.update(this);
+        return newInstance;
     }
 }

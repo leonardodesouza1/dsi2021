@@ -1,30 +1,53 @@
 package br.univille.leonardosouzadsi2021.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-public class Cliente {
+public class Cliente implements Serializable, GenericEntity<Cliente>{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
     @Column(unique = true, nullable = false)
     private String cpf;
+
     private String nome;
     private String telefone;
     private String endereco;
     private String email;
 
-    public long getId() {
-        return id;
+
+    @Override
+    public void update(Cliente objeto) {
+        this.cpf = objeto.getCpf();
+        this.email = objeto.getEmail();
+        this.endereco = objeto.getEndereco();
+        this.nome = objeto.getNome();
+        this.telefone = objeto.getTelefone();
     }
+
+    public Long getId() {
+        return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @Override
+    public Cliente createNewInstance() {
+        Cliente newInstance = new Cliente();
+        newInstance.update(this);
+        return newInstance;
+    }
+
     public void setId(long id) {
         this.id = id;
     }
+
     public String getCpf() {
         return cpf;
     }
