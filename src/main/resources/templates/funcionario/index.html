@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="layout :: htmlhead"></head>
+<body>
+<div class="container">
+    <nav th:replace="layout :: menu (buttons = ${ {} })">(menu)</nav>
+    <a th:href="@{/funcionario/form}" class="btn btn-dark">Novo funcionario</a>
+
+    <table class="table" id="funcionarios">
+        <thead>
+        <tr>
+            <th>CPF</th>
+            <th>Nome</th>
+            <th>Telefone</th>
+            <th>Endereco</th>
+            <th>email</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="table-primary" th:each="funcionario : ${objetos}">
+            <!--/*@thymesVar id="getNome" type="java"*/-->
+            <td th:text="${funcionario.cpf}"></td>
+            <td th:text="${funcionario.getNome()}"></td>
+            <td th:text="${funcionario.telefone}"></td>
+            <td th:text="${funcionario.endereco}"></td>
+            <td th:text="${funcionario.email}"></td>
+            <td>
+                <a th:href="@{'/funcionario/alterar/'+${funcionario.id}}" class="btn btn-light" >...</a>
+                <button class="btn btn-danger js-delete"
+                        th:data-id="${funcionario.id}">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    Excluir
+                </button>
+            </td>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+</div>
+
+<div th:replace="layout :: footer">(footer)</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#funcionarios").on('click', ".js-delete", function(){
+            let button = $(this);
+            bootbox.confirm("Confirma a exclusão do registro?",function(result){
+                console.log(result);
+                if(result){
+                    $.ajax({
+                        url : "/funcionario/delete/" + button.attr("data-id"),
+                        method: "GET",
+                        success : function(){
+                            window.location.href = "/funcionario/";
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html> 

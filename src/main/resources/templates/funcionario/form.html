@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:include="layout :: htmlhead"></head>
+<body>
+<div class="container">
+  <nav th:replace="layout :: menu  (buttons = ${ {} })">(menu)</nav>
+  <a th:href="@{/funcionario}" class="btn btn-dark">funcionarios</a>
+  <form th:action="@{/funcionario/(form)}" th:object="${funcionario}" method="POST">
+    <input type="hidden" th:field="*{id}">
+    <div class="row">
+      <div class="col-md-6">
+        <label class="form-label">CPF</label>
+        <input type="text" class="form-control" th:field="*{cpf}">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Nome</label>
+        <input type="text" class="form-control" th:field="*{nome}">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Telefone</label>
+        <input type="text" class="form-control" th:field="*{telefone}">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Endereco</label>
+        <input type="text" class="form-control" th:field="*{endereco}">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Email</label>
+        <input type="text" class="form-control" th:field="*{email}">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <button type="submit" class="btn btn-primary mb-3">Enviar</button>
+      </div>
+    </div>
+  </form>
+
+
+
+
+
+
+
+</div>
+
+
+<div th:include="layout :: footer">(footer)</div>
+</body>
+</html> 
