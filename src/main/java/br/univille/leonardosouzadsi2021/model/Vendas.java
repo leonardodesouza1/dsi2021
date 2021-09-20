@@ -1,58 +1,95 @@
 package br.univille.leonardosouzadsi2021.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Date;
 
 @Entity
-public class Vendas {
+public class Vendas implements Serializable, GenericEntity<Vendas>{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long idVenda;
-    private long idProduto;
-    private int qtdProduto;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+
+    @Temporal(value = TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    private Date data;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "venda_id")
+    private PedidoDaVenda pedidoDaVenda;
     private float valorTotal;
-    private long idCliente; 
-    private long idFuncionario;
-    
-    public long getIdVenda() {
-        return idVenda;
+
+    public Date getData() {
+        return data;
     }
-    public void setIdVenda(long idVenda) {
-        this.idVenda = idVenda;
+
+    public void setData(Date data) {
+        this.data = data;
     }
-    public long getIdProduto() {
-        return idProduto;
+
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    private Cliente cliente;
+
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    private Funcionario funcionario;
+
+    public void setId(Long id) {
+        this.id = id;
     }
-    public void setIdProduto(long idProduto) {
-        this.idProduto = idProduto;
+
+    public PedidoDaVenda getPedidoDaVenda() {
+        return pedidoDaVenda;
     }
-    public int getQtdProduto() {
-        return qtdProduto;
+
+    public void setPedidoDaVenda(PedidoDaVenda pedidoDaVenda) {
+        this.pedidoDaVenda = pedidoDaVenda;
     }
-    public void setQtdProduto(int qtdProduto) {
-        this.qtdProduto = qtdProduto;
+
+    public Cliente getCliente() {
+        return cliente;
     }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public Funcionario getFuncionario() {
+        return funcionario;
+    }
+
+    public void setFuncionario(Funcionario funcionario) {
+        this.funcionario = funcionario;
+    }
+
     public float getValorTotal() {
         return valorTotal;
     }
     public void setValorTotal(float valorTotal) {
         this.valorTotal = valorTotal;
     }
-    public long getIdCliente() {
-        return idCliente;
-    }
-    public void setIdCliente(long idCliente) {
-        this.idCliente = idCliente;
-    }
-    public long getIdFuncionario() {
-        return idFuncionario;
-    }
-    public void setIdFuncionario(long idFuncionario) {
-        this.idFuncionario = idFuncionario;
-    } 
 
-    
+
+
+    @Override
+    public void update(Vendas objeto) {
+        this.cliente = objeto.getCliente();
+        this.pedidoDaVenda = objeto.getPedidoDaVenda();
+        this.valorTotal = objeto.getValorTotal();
+        this.funcionario = objeto.getFuncionario();
+    }
+
+    @Override
+    public Long getId() {
+        return this.id;
+    }
+
+    @Override
+    public Vendas createNewInstance() {
+        Vendas newInstance = new Vendas();
+        newInstance.update(this);
+        return newInstance;
+    }
 }

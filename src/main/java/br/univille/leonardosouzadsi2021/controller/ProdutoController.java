@@ -2,7 +2,11 @@ package br.univille.leonardosouzadsi2021.controller;
 
 import java.util.List;
 
+import br.univille.leonardosouzadsi2021.repository.ProdutoRepository;
+import br.univille.leonardosouzadsi2021.repository.SharedRepository;
+import br.univille.leonardosouzadsi2021.service.impl.ProdutoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -12,35 +16,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.univille.leonardosouzadsi2021.model.Produto;
-import br.univille.leonardosouzadsi2021.service.ProdutoService;
+import br.univille.leonardosouzadsi2021.service.GenericService;
 
 @Controller
-@RequestMapping("/produto")
-public class ProdutoController {
+@RequestMapping(value = "/produto")
+public class ProdutoController extends GenericController<Produto>{
 
     @Autowired
-    private ProdutoService service;
-    
-    @GetMapping
-    public ModelAndView index(){
-        List<Produto> produtos = service.getAll();
-        return new ModelAndView("produto/index","produtos", produtos);
-    }
+    ProdutoServiceImpl service;
 
-    @GetMapping("/form")
-    public ModelAndView cadastro(@ModelAttribute Produto produto){
-        List<Produto> produtos = service.getAll();
-        return new ModelAndView("produto/form","produtos", produtos);
+    public ProdutoController(SharedRepository<Produto> repository) {
+        super.setDependencies(repository);
     }
-
     @PostMapping(params="form")
-    public ModelAndView save(Produto produto){
-        service.save(produto);
+    public ModelAndView save(Produto objeto){
+        service.save(objeto);
         return new ModelAndView("redirect:/produto");
-    }
-
-    @GetMapping("alterar/{id}")
-    public ModelAndView alterar(@PathVariable("id") Produto produto){
-        return new ModelAndView("/produto/form", "produto", produto);
     }
 }
