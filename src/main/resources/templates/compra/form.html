@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:include="layout :: htmlhead"></head>
+<body>
+<div class="container">
+  <nav th:replace="layout :: menu  (buttons = ${ {} })">(menu)</nav>
+  <a th:href="@{/compra}" class="btn btn-dark">compra</a>
+  <form th:action="@{/compra/(form)}" th:object="${compra}" method="POST">
+    <input type="hidden" th:field="*{id}">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="container" th:object="${itemDaCompra}">
+        <label class="form-label">Produtos</label>
+        <select class="form-select" aria-label="Default select example" id="produto" th:field="${itemDaCompra.produto}">
+          <option th:each="produto : ${listaProduto}" th:value="${produto.id}" th:label="${produto.nome}"></option>
+        </select>
+      <div class="col-md-6">
+        <label>Quantidade:</label>
+        <input type="number" th:field="*{quantidade}" class="form-control">
+      </div>
+      </div>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">CNPJ</label>
+        <input type="text" class="form-control" th:field="*{cnpj}">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Nome da Empresa</label>
+        <input type="text" class="form-control" th:field="*{nomeEmpresa}">
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Valor da Compra</label>
+        <input type="text" class="form-control" th:field="*{valorTotal}">
+      </div>
+      <div class="col-md-6">
+        <label>Data:</label>
+        <input type="datetime-local" th:field="*{data}" class="form-control">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <button type="submit" class="btn btn-primary mb-3" name="insertcompra">Enviar</button>
+      </div>
+    </div>
+  </form>
+
+
+
+
+
+
+
+</div>
+
+
+<div th:include="layout :: footer">(footer)</div>
+</body>
+</html> 
