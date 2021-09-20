@@ -6,7 +6,7 @@
         <link rel="stylesheet" th:href="@{/site.css}" />
     </head>
     <body>
-        <nav th:fragment="menu" class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav th:fragment="menu (buttons)" class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
               <a class="navbar-brand" href="#">Jane Loja</a>
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -15,8 +15,11 @@
               <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav">
                   <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    <a class="nav-link active" aria-current="page" href="/">Home</a>
                   </li>
+                    <li class="nav-item active" th:each="item : ${buttons}">
+                        <a class="nav-link" th:href="${item[0]}" th:text="${item[1]}"></a>
+                    </li>
                   <li class="nav-item">
                     <a class="nav-link" href="/produto">Produto</a>
                   </li>
@@ -41,6 +44,7 @@
         <div th:fragment="footer" id="footer">
             <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
             <script th:src="@{/webjars/bootstrap/4.0.0/js/bootstrap.min.js}"></script>
+            <script th:src="@{/webjars/bootbox.js/4.4.0/bootbox.js}"></script>
         </div>
     </body>
 </html>

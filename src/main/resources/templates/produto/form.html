@@ -4,18 +4,18 @@
     <head th:include="layout :: htmlhead"></head>
     <body>
         <div class="container">
-            <nav th:replace="layout :: menu">(menu)</nav>
+            <nav th:replace="layout :: menu  (buttons = ${ {} })">(menu)</nav>
             <a th:href="@{/produto}" class="btn btn-dark">Produtos</a>
                 <form th:action="@{/produto/(form)}" th:object="${produto}" method="POST">
-                    <input type="hidden" th:field="*{idProduto}">
+                    <input type="hidden" th:field="*{id}">
                     <div class="row">
                       <div class="col-md-6">
-                        <label for="inputName" class="form-label">Nome</label>
+                        <label class="form-label">Nome</label>
                         <input type="text" class="form-control" th:field="*{nome}">
                       </div>
                       <div class="col-md-6">
-                        <label for="inputValue" class="form-label">Valor</label>
-                        <input type="value" class="form-control" th:field="*{valor}">
+                        <label class="form-label">Valor</label>
+                        <input type="text" class="form-control" th:field="*{valor}">
                       </div>
                     </div> 
                       <div class="row">
