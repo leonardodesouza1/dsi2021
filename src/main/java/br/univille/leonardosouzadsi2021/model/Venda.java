@@ -5,6 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Vendas implements Serializable, GenericEntity<Vendas>{
@@ -17,10 +18,18 @@ public class Vendas implements Serializable, GenericEntity<Vendas>{
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date data;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "venda_id")
-    private PedidoDaVenda pedidoDaVenda;
+    private List<PedidoDaVenda> pedidoDaVenda;
     private float valorTotal;
+
+    public List<PedidoDaVenda> getPedidoDaVenda() {
+        return pedidoDaVenda;
+    }
+
+    public void setPedidoDaVenda(List<PedidoDaVenda> pedidoDaVenda) {
+        this.pedidoDaVenda = pedidoDaVenda;
+    }
 
     public Date getData() {
         return data;
@@ -40,13 +49,6 @@ public class Vendas implements Serializable, GenericEntity<Vendas>{
         this.id = id;
     }
 
-    public PedidoDaVenda getPedidoDaVenda() {
-        return pedidoDaVenda;
-    }
-
-    public void setPedidoDaVenda(PedidoDaVenda pedidoDaVenda) {
-        this.pedidoDaVenda = pedidoDaVenda;
-    }
 
     public Cliente getCliente() {
         return cliente;
