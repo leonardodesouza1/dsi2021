@@ -4,11 +4,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-public class Vendas implements Serializable, GenericEntity<Vendas>{
+public class Venda implements Serializable, GenericEntity<Venda>{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -18,9 +19,9 @@ public class Vendas implements Serializable, GenericEntity<Vendas>{
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private Date data;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval=true)
     @JoinColumn(name = "venda_id")
-    private List<PedidoDaVenda> pedidoDaVenda;
+    private List<PedidoDaVenda> pedidoDaVenda = new ArrayList<>();
     private float valorTotal;
 
     public List<PedidoDaVenda> getPedidoDaVenda() {
@@ -76,7 +77,7 @@ public class Vendas implements Serializable, GenericEntity<Vendas>{
 
 
     @Override
-    public void update(Vendas objeto) {
+    public void update(Venda objeto) {
         this.cliente = objeto.getCliente();
         this.pedidoDaVenda = objeto.getPedidoDaVenda();
         this.valorTotal = objeto.getValorTotal();
@@ -89,8 +90,8 @@ public class Vendas implements Serializable, GenericEntity<Vendas>{
     }
 
     @Override
-    public Vendas createNewInstance() {
-        Vendas newInstance = new Vendas();
+    public Venda createNewInstance() {
+        Venda newInstance = new Venda();
         newInstance.update(this);
         return newInstance;
     }

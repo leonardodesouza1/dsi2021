@@ -1,10 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:include="layout :: htmlhead"></head>
+
 <body>
-$END$
+<div class="container">
+  <nav th:replace="layout :: menu (buttons = ${ {} })">(menu)</nav>
+  <div class="border border-dark">
+    <form th:action="@{/venda}" th:object="${venda}" method="POST">
+      <input type="hidden" th:field="*{id}">
+      <div class="form-group">
+        <div class="row">
+          <div class="col-6">
+            <label>Data:</label>
+            <input type="datetime-local" th:field="*{data}" class="form-control">
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">Adicionar Produtos</div>
+        <div class="card-body">
+          <div class="container" th:object="${novopedvenda}">
+                <div class="row">
+                  <div class="col-sm">
+                    <label>Produto</label>
+                    <select class="form-control" id="slcproduto" th:field="*{produto}">
+                      <option th:value="${umproduto.id}"
+                              th:text="${umproduto.nome}"
+                              th:each="umproduto : ${listaProduto}">
+                      </option>
+                    </select>
+                  </div>
+              <div class="col-sm">
+                <label for="txtquantidade">Quantidade</label>
+              </div>
+              <div class="col-sm">
+                <input type="text" class="form-control" id="txtquantidade" th:field="${novopedvenda.quantidade}" placeholder="Quantidade">
+              </div>
+              <div class="col-sm">
+                <button type="submit" name="insertprod" class="btn btn-primary">Inserir item</button>
+              </div>
+            </div>
+          </div>
+          <br>
+        </div>
+      </div>
+
+      <div class="card">
+        <table class="table">
+          <thead class="thead-light">
+          <tr>
+            <th scope="col">Produto</th>
+            <th scope="col">Quantidade</th>
+            <th scope="col"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr scope="row" th:each="vendarealizada, stat : ${venda.pedidoDaVenda}">
+            <input type="hidden" th:field="${venda.pedidoDaVenda[__${stat.index}__].produto}"/>
+            <input type="hidden" th:field="${venda.pedidoDaVenda[__${stat.index}__].quantidade}"/>
+            <td th:text="${vendarealizada.produto.nome}"></td>
+            <td th:text="${vendarealizada.quantidade}"></td>
+            <td>
+              <button type="submit" name="removeprod" th:value="__${stat.index}__" class="btn btn-primary">Remover</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-6">
+              <label>Valor Total</label>
+              <input type="number" name="valorTotal" id="valorTotal" th:value="${valortotal}"  class="form-control">
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+  </div>
+</div>
+<div th:include="layout :: footer">(footer)</div>
 </body>
 </html>

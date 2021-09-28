@@ -2,6 +2,8 @@ package br.univille.leonardosouzadsi2021.controller;
 
 import java.util.List;
 
+import br.univille.leonardosouzadsi2021.model.Compra;
+import br.univille.leonardosouzadsi2021.model.Funcionario;
 import br.univille.leonardosouzadsi2021.repository.ProdutoRepository;
 import br.univille.leonardosouzadsi2021.repository.SharedRepository;
 import br.univille.leonardosouzadsi2021.service.impl.ProdutoServiceImpl;
@@ -28,9 +30,33 @@ public class ProdutoController extends GenericController<Produto>{
     public ProdutoController(SharedRepository<Produto> repository) {
         super.setDependencies(repository);
     }
+
+    @GetMapping
+    public ModelAndView index(){
+        List<Produto> objetos = service.getAll();
+        return new ModelAndView("/produto/index","objetos", objetos);
+    }
+
     @PostMapping(params="form")
     public ModelAndView save(Produto objeto){
         service.save(objeto);
         return new ModelAndView("redirect:/produto");
+    }
+
+    @GetMapping("/form")
+    public ModelAndView cadastro(@ModelAttribute Produto objeto){
+        List<Produto> objetos = service.getAll();
+        return new ModelAndView("/produto/form","objetos", objetos);
+    }
+
+    @GetMapping("/alterar/{id}")
+    public ModelAndView alterar(@PathVariable("id") Produto objeto){
+        return new ModelAndView("/produto/form", "produto" , objeto);
+    }
+
+    @GetMapping("/delete/{id}")
+    public ModelAndView delete(@PathVariable("id") Produto obj){
+        service.delete(obj);
+        return new ModelAndView("redirect:produto");
     }
 }

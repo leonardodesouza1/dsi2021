@@ -49,4 +49,11 @@ public class CompraController extends GenericController<Compra>{
         //todo adicionar na compra o itemDaCompra
         return new ModelAndView("redirect:/compra");
     }
+
+
+    @GetMapping
+    public ModelAndView index(){
+        List<Compra> objetos = service.getAll();
+        return new ModelAndView("/compra/index","objetos", objetos);
+    }
 }

@@ -12,25 +12,25 @@ public class PedidoDaVenda implements Serializable, GenericEntity<PedidoDaVenda>
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-    private List<Produto> listaProdutosVenda = new ArrayList<Produto>();
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    private Produto produto;
 
-    private float valor;
+    private int quantidade;
 
-    public List<Produto> getListaProdutosVenda() {
-        return listaProdutosVenda;
+    public Produto getProduto() {
+        return produto;
     }
 
-    public void setListaProdutosVenda(List<Produto> listaProdutosVenda) {
-        this.listaProdutosVenda = listaProdutosVenda;
+    public void setProduto(Produto produto) {
+        this.produto = produto;
     }
 
-    public float getValor() {
-        return valor;
+    public int getQuantidade() {
+        return quantidade;
     }
 
-    public void setValor(float valor) {
-        this.valor = valor;
+    public void setQuantidade(int valor) {
+        this.quantidade = valor;
     }
 
     public void setId(Long id) {
@@ -39,8 +39,8 @@ public class PedidoDaVenda implements Serializable, GenericEntity<PedidoDaVenda>
 
     @Override
     public void update(PedidoDaVenda objeto) {
-        this.listaProdutosVenda = objeto.getListaProdutosVenda();
-        this.valor = objeto.getValor();
+        this.produto = objeto.getProduto();
+        this.quantidade = objeto.getQuantidade();
     }
 
     public Long getId() {
