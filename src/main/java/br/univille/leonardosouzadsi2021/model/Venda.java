@@ -12,7 +12,7 @@ import java.util.List;
 public class Venda implements Serializable, GenericEntity<Venda>{
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Temporal(value = TemporalType.TIMESTAMP)

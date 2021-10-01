@@ -12,7 +12,7 @@ public class PedidoDaVenda implements Serializable, GenericEntity<PedidoDaVenda>
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+    @OneToOne(cascade = {CascadeType.PERSIST})
     private Produto produto;
 
     private int quantidade;

@@ -1,13 +1,184 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-    <head th:include="layout :: htmlhead"></head>
-    <body>
-        <div class="container">
-            <nav th:replace="layout :: menu (buttons = ${{}})">(menu)</nav>
-            <h1 align="center" th:text="${nome}"></h1>
-        </div>
-        
-        <div th:include="layout :: footer">(footer)</div>
-    </body>
-</html> 
+    <head>
+        <title>Jane Loja</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Custom CSS -->
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+        <!-- Fonts -->
+        <link rel="preconnect" th:href="@{https://fonts.gstatic.com}">
+        <link th:href="@{https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800;900&display=swap}" rel="stylesheet">
+        <!-- Font Awesome -->
+        <script th:src="@{https://kit.fontawesome.com/bc4a93c294.js}" crossorigin="anonymous"></script>
+        <!-- Icon -->
+        <link rel="icon" th:href="@{images/icon.png}">
+        <!-- jQuery -->
+        <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+    </head>
+        <body>
+            <!-- Header Area -->
+            <header class="header">
+                <a th:href="@{index.html}" class="logo">Jane <span class="spring">Loja</span></a>
+                <!-- Nav Area -->
+                <nav class="nav">
+                    <ul>
+                        <li><a th:href="@{/compra}">Compras</a></li>
+                        <li><a th:href="@{/funcionario}">Funcionario</a></li>
+                        <li><a th:href="@{/venda/form}">Vendas</a></li>
+                        <li><a th:href="@{/produto}">Produtos</a></li>
+                    </ul>
+                    <i id="icon" class="fas fa-bars"></i>
+                </nav>
+            </header>
+
+            <!-- Banner Area -->
+            <section class="banner" id="banner">
+                <div class="content">
+                    <h2>A melhor das <span class="spring">Lojas!</span></h2>
+                    <p>
+                        Bem vindo ao site oficial da Jane Loja. Esperamos que você tenha otimas compras!
+                    </p>
+                    <a th:href="@{#}" class="btn">Confira nossas novidades!</a>
+                </div>
+            </section>
+
+            <!-- About Us Area -->
+            <section class="about" id="about">
+                <div class="row">
+                    <div class="col50">
+                        <h2><span class="spring">Sobre nós</span></h2>
+                        <p>
+                            A Jane Loja é um comércio localizado na zona norte da cidade de Joinville, no bairro Bom Retiro e está há 19 anos no mercado. A loja oferece aos seus clientes uma diversidade de roupas masculinas, femininas e infantis, materiais de escritório e brinquedos.
+                            <br>
+                            Atualmente trabalha com duas funcionárias, que realizam todas as atividades da loja, como compra de mercadorias com representantes, vendas, controle de estoque até organização do layout da loja, look dos manequins e limpeza do local.
+                        </p>
+                    </div>
+
+                    <div class="col50">
+                        <div class="imgContent">
+                            <img th:src="@{images/img1.jpg}" alt="Image one">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Gallery Area -->
+            <section class="gallery" id="gallery">
+                <div class="title">
+                    <h2 class="spring">Novidades</h2>
+                    <p>É sempre bom ter você aqui. Separamos algumas novidades para melhorar o seu dia!</p>
+                </div>
+                <div class="content">
+                    <div class="box">
+                        <div class="imgContent">
+                            <img th:src="@{images/img2.jpg}" alt="Image two">
+                        </div>
+                        <div class="text">
+                            <h3>Produto 02</h3>
+                        </div>
+                    </div>
+
+                    <div class="box">
+                        <div class="imgContent">
+                            <img th:src="@{images/img2.jpg}" alt="Image three">
+                        </div>
+                        <div class="text">
+                            <h3>Produto 01</h3>
+                        </div>
+                    </div>
+
+                    <div class="box">
+                        <div class="imgContent">
+                            <img th:src="@{images/img2.jpg}" alt="Image four">
+                        </div>
+                        <div class="text">
+                            <h3>Produto 04</h3>
+                        </div>
+                    </div>
+
+                    <div class="box">
+                        <div class="imgContent">
+                            <img th:src="@{images/img2.jpg}" alt="Image five">
+                        </div>
+                        <div class="text">
+                            <h3>Produto 03</h3>
+                        </div>
+                    </div>
+
+                    <div class="box">
+                        <div class="imgContent">
+                            <img th:src="@{images/img2.jpg}" alt="Image six">
+                        </div>
+                        <div class="text">
+                            <h3>Produto 06</h3>
+                        </div>
+                    </div>
+
+                    <div class="box">
+                        <div class="imgContent">
+                            <img th:src="@{images/img2.jpg}" alt="Image seven">
+                        </div>
+                        <div class="text">
+                            <h3>Produto 05</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="title">
+                    <a th:href="@{#}" class="btn">Ver mais</a>
+                </div>
+            </section>
+
+            <!-- Clients Area -->
+            <section class="clients" id="clients">
+                <div class="title">
+                    <h2 class="spring">Nossos produtos</h2>
+                    <p>Trabalhamos com o que a de melhor, para oferecer a você uma experiencia unica.</p>
+                </div>
+                <div class="content">
+                    <div class="box">
+                        <div class="imgContent">
+                            <img th:src="@{images/client1.jpg}" alt="Client one">
+                        </div>
+                        <div class="text">
+                            <h3>Roupas</h3>
+                        </div>
+                    </div>
+
+                    <div class="box">
+                        <div class="imgContent">
+                            <img th:src="@{images/client2.jpg}" alt="Client Two">
+                        </div>
+                        <div class="text">
+                            <h3>Roupas infantis</h3>
+                        </div>
+                    </div>
+
+                    <div class="box">
+                        <div class="imgContent">
+                            <img th:src="@{images/client3.jpg}" alt="Client three">
+                        </div>
+                        <div class="text">
+                            <h3>brinquedos</h3>
+                        </div>
+                    </div>
+
+                    <div class="box">
+                        <div class="imgContent">
+                            <img th:src="@{images/client4.jpg}" alt="Client four">
+                        </div>
+                        <div class="text">
+                            <h3>Materiais de escritório</h3>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer Area -->
+            <footer class="footer">
+                    <p>Copyright &copy; 2021 Jane <span class="spring">Loja</span>.</p>
+            </footer>
+        </body>
+</html>

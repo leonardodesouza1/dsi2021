@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:replace="layout :: htmlhead"></head>
+<body>
+<div class="container">
+    <nav th:replace="layout :: menu (buttons = ${ {} })">(menu)</nav>
+    <a th:href="@{/venda/form}" class="btn btn-dark">Cadastrar venda</a>
+
+    <table class="table" id="estoque">
+        <thead>
+        <tr>
+            <th>Data</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="table-primary" th:each="venda : ${vendas}">
+            <!--/*@thymesVar id="getNome" type="java"*/-->
+            <td th:text="${venda.data}"></td>
+            <td>
+                <a th:href="@{'/estoque/alterar/'+${estoque.id}}" class="btn btn-light" >...</a>
+                <button class="btn btn-danger js-delete"
+                        th:data-id="${estoque.id}">
+                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                    Excluir
+                </button>
+            </td>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+</div>
+
+<div th:replace="layout :: footer">(footer)</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#estoques").on('click', ".js-delete", function(){
+            let button = $(this);
+            bootbox.confirm("Confirma a exclusão do registro?",function(result){
+                console.log(result);
+                if(result){
+                    $.ajax({
+                        url : "/estoque/delete/" + button.attr("data-id"),
+                        method: "GET",
+                        success : function(){
+                            window.location.href = "/estoque/";
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

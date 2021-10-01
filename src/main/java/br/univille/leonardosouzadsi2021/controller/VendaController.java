@@ -28,8 +28,8 @@ public class VendaController extends GenericController<Venda> {
 
     @GetMapping
     public ModelAndView index(){
-        List<Venda> objetos = service.getAll();
-        return new ModelAndView("/venda/index","objetos", objetos);
+        List<Venda> vendas = service.getAll();
+        return new ModelAndView("/venda/index","vendas", vendas);
     }
 
     @GetMapping("/form")

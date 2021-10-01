@@ -11,7 +11,7 @@ import java.io.Serializable;
 public class Funcionario implements Serializable, GenericEntity<Funcionario> {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true, nullable = false)
     private String cpf;

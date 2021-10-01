@@ -13,7 +13,7 @@ import java.io.Serializable;
 public class Produto implements Serializable, GenericEntity<Produto> {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
     private float valor;

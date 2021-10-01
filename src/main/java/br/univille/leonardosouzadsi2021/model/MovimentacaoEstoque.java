@@ -12,7 +12,7 @@ import javax.persistence.*;
 public class MovimentacaoEstoque implements Serializable, GenericEntity<MovimentacaoEstoque> {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
