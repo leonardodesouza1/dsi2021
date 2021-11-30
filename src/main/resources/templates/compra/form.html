@@ -1,59 +1,94 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
 <head th:include="layout :: htmlhead"></head>
+
 <body>
 <div class="container">
-  <nav th:replace="layout :: menu  (buttons = ${ {} })">(menu)</nav>
-  <a th:href="@{/compra}" class="btn btn-dark">compra</a>
-  <form th:action="@{/compra/(form)}" th:object="${compra}" method="POST">
-    <input type="hidden" th:field="*{id}">
-    <div class="row">
-      <div class="col-md-6">
-        <div class="container" th:object="${itemDaCompra}">
-        <label class="form-label">Produtos</label>
-        <select class="form-select" aria-label="Default select example" id="produto" th:field="${itemDaCompra.produto}">
-          <option th:each="produto : ${listaProduto}" th:value="${produto.id}" th:label="${produto.nome}"></option>
-        </select>
-      <div class="col-md-6">
-        <label>Quantidade:</label>
-        <input type="number" th:field="*{quantidade}" class="form-control">
+  <nav th:replace="layout :: menu (buttons = ${ {} })">(menu)</nav>
+  <div class="border border-dark">
+    <form th:action="@{/compra}" th:object="${compra}" method="POST">
+      <input type="hidden" th:field="*{id}">
+      <div class="form-group">
+        <div class="row">
+          <div class="col-6">
+            <label>Data:</label>
+            <input type="datetime-local" th:field="*{data}" class="form-control">
+          </div>
+          <div class="col-6">
+            <label>CNPJ:</label>
+            <input type="text" th:field="*{cnpj}" class="form-control">
+          </div>
+          <div class="col-6">
+            <label>Empresa:</label>
+            <input type="text" th:field="*{nomeEmpresa}" class="form-control">
+          </div>
+        </div>
       </div>
+      <div class="card">
+        <div class="card-header">Adicionar Produtos</div>
+        <div class="card-body">
+          <div class="container" th:object="${novopedcompra}">
+            <div class="row">
+              <div class="col-sm">
+                <label>Produto</label>
+                <select class="form-control" id="slcproduto" th:field="*{produto}">
+                  <option th:value="${umproduto.id}"
+                          th:text="${umproduto.nome}"
+                          th:each="umproduto : ${listaProduto}">
+                  </option>
+                </select>
+              </div>
+              <div class="col-sm">
+                <label for="txtquantidade">Quantidade</label>
+              </div>
+              <div class="col-sm">
+                <input type="text" class="form-control" id="txtquantidade" th:field="${novopedcompra.quantidade}" placeholder="Quantidade">
+              </div>
+              <div class="col-sm">
+                <button type="submit" name="insertprod" class="btn btn-primary">Inserir item</button>
+              </div>
+            </div>
+          </div>
+          <br>
+        </div>
       </div>
-      </div>
-      <div class="col-md-6">
-        <label class="form-label">CNPJ</label>
-        <input type="text" class="form-control" th:field="*{cnpj}">
-      </div>
-      <div class="col-md-6">
-        <label class="form-label">Nome da Empresa</label>
-        <input type="text" class="form-control" th:field="*{nomeEmpresa}">
-      </div>
-      <div class="col-md-6">
-        <label class="form-label">Valor da Compra</label>
-        <input type="text" class="form-control" th:field="*{valorTotal}">
-      </div>
-      <div class="col-md-6">
-        <label>Data:</label>
-        <input type="datetime-local" th:field="*{data}" class="form-control">
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <button type="submit" class="btn btn-primary mb-3" name="insertcompra">Enviar</button>
-      </div>
-    </div>
-  </form>
 
-
-
-
-
-
-
+      <div class="card">
+        <table class="table">
+          <thead class="thead-light">
+          <tr>
+            <th scope="col">Produto</th>
+            <th scope="col">Quantidade</th>
+            <th scope="col"></th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr scope="row" th:each="comprarealizada, stat : ${compra.listaItens}">
+            <input type="hidden" th:field="${compra.listaItens[__${stat.index}__].produto}"/>
+            <input type="hidden" th:field="${compra.listaItens[__${stat.index}__].quantidade}"/>
+            <td th:text="${comprarealizada.produto.nome}"></td>
+            <td th:text="${comprarealizada.quantidade}"></td>
+            <td>
+              <button type="submit" name="removeprod" th:value="__${stat.index}__" class="btn btn-primary">Remover</button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-6">
+              <label>Valor Total</label>
+              <input type="number" name="valorTotal" id="valorTotal" th:value="${valortotal}"  class="form-control">
+            </div>
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+  </div>
 </div>
-
-
 <div th:include="layout :: footer">(footer)</div>
 </body>
-</html> 
+</html>

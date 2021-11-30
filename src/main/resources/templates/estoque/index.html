@@ -5,28 +5,20 @@
 <body>
 <div class="container">
     <nav th:replace="layout :: menu (buttons = ${ {} })">(menu)</nav>
-    <!--<a th:href="@{/estoque/form}" class="btn btn-dark">Novo estoque</a>-->
 
-    <table class="table" id="estoque">
+    <table class="table" id="estoques">
         <thead>
         <tr>
             <th>Data</th>
-            <th></th>
+            <th>Produto</th>
+            <th>quantidade</th>
         </tr>
         </thead>
         <tbody>
         <tr class="table-primary" th:each="estoque : ${objetos}">
-            <!--/*@thymesVar id="getNome" type="java"*/-->
             <td th:text="${estoque.data}"></td>
-            <td>
-                <a th:href="@{'/estoque/alterar/'+${estoque.id}}" class="btn btn-light" >...</a>
-                <button class="btn btn-danger js-delete"
-                        th:data-id="${estoque.id}">
-                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                    Excluir
-                </button>
-            </td>
-            </td>
+            <td th:text="${estoque.produto.nome}"></td>
+            <td th:text="${estoque.quantidade}"></td>
         </tr>
         </tbody>
     </table>
@@ -36,24 +28,5 @@
 
 <div th:replace="layout :: footer">(footer)</div>
 
-<script type="text/javascript">
-    $(document).ready(function(){
-        $("#estoques").on('click', ".js-delete", function(){
-            let button = $(this);
-            bootbox.confirm("Confirma a exclusão do registro?",function(result){
-                console.log(result);
-                if(result){
-                    $.ajax({
-                        url : "/estoque/delete/" + button.attr("data-id"),
-                        method: "GET",
-                        success : function(){
-                            window.location.href = "/estoque/";
-                        }
-                    });
-                }
-            });
-        });
-    });
-</script>
 </body>
-</html>
+</html> 

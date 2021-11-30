@@ -28,7 +28,7 @@ public class EstoqueController extends GenericController<MovimentacaoEstoque>{
 
     @GetMapping
     public ModelAndView index(){
-        List<MovimentacaoEstoque> objetos = service.getAll();
+        List<MovimentacaoEstoque> objetos = service.getProdutosEstoque();
         return new ModelAndView("/estoque/index","objetos", objetos);
     }
 

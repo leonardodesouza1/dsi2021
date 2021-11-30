@@ -7,7 +7,7 @@
     <nav th:replace="layout :: menu (buttons = ${ {} })">(menu)</nav>
     <a th:href="@{/venda/form}" class="btn btn-dark">Cadastrar venda</a>
 
-    <table class="table" id="estoque">
+    <table class="table" id="venda">
         <thead>
         <tr>
             <th>Data</th>
@@ -19,9 +19,9 @@
             <!--/*@thymesVar id="getNome" type="java"*/-->
             <td th:text="${venda.data}"></td>
             <td>
-                <a th:href="@{'/estoque/alterar/'+${estoque.id}}" class="btn btn-light" >...</a>
+                <a th:href="@{'/venda/alterar/'+${venda.id}}" class="btn btn-light" >...</a>
                 <button class="btn btn-danger js-delete"
-                        th:data-id="${estoque.id}">
+                        th:data-id="${venda.id}">
                     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                     Excluir
                 </button>
@@ -38,16 +38,16 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $("#estoques").on('click', ".js-delete", function(){
+        $("#vendas").on('click', ".js-delete", function(){
             let button = $(this);
             bootbox.confirm("Confirma a exclusão do registro?",function(result){
                 console.log(result);
                 if(result){
                     $.ajax({
-                        url : "/estoque/delete/" + button.attr("data-id"),
+                        url : "/venda/delete/" + button.attr("data-id"),
                         method: "GET",
                         success : function(){
-                            window.location.href = "/estoque/";
+                            window.location.href = "/venda/";
                         }
                     });
                 }

@@ -46,7 +46,7 @@ public class VendaController extends GenericController<Venda> {
 
     @PostMapping()
     public ModelAndView save(Venda venda){
-        service.save(venda);
+        service.salvaVenda(venda);
         return new ModelAndView("redirect:/venda");
     }
 
