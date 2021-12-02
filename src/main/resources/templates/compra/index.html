@@ -5,23 +5,34 @@
 <body>
 <div class="container">
     <nav th:replace="layout :: menu (buttons = ${ {} })">(menu)</nav>
-    <a th:href="@{/compra/form}" class="btn btn-dark">Cadastrar compra</a>
+    <a th:href="@{/compra/form}" class="btn btn-dark"> + Cadastrar compra</a>
 
-    <table class="table" id="estoque">
+    <table class="table" id="compras">
         <thead>
         <tr>
             <th>Data</th>
-            <th></th>
+            <th>Produtos</th>
+            <th>Nome da Empresa</th>
+            <th>CNPJ</th>
+            <th>Valor Total</th>
         </tr>
         </thead>
         <tbody>
-        <tr class="table-primary" th:each="estoque : ${objetos}">
+        <tr class="table-primary" th:each="compra : ${compras}">
             <!--/*@thymesVar id="getNome" type="java"*/-->
-            <td th:text="${estoque.data}"></td>
+            <td th:text="${#dates.format(compra.data, 'dd/MM/yyyy HH:mm')}"></td>
             <td>
-                <a th:href="@{'/estoque/alterar/'+${estoque.id}}" class="btn btn-light" >...</a>
+            <ul th:each="item : ${compra.listaItens}">
+                <li th:text="${item.produto.nome}"></li>
+            </ul>
+            </td>
+            <td th:text="${compra.nomeEmpresa}"></td>
+            <td th:text="${compra.cnpj}"></td>
+            <td th:text="${#numbers.formatCurrency(compra.valorTotal)}">R$100</td>
+            <td>
+                <a th:href="@{'/compra/alterar/'+${compra.id}}" class="btn btn-light" >...</a>
                 <button class="btn btn-danger js-delete"
-                        th:data-id="${estoque.id}">
+                        th:data-id="${compra.id}">
                     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                     Excluir
                 </button>
@@ -38,16 +49,16 @@
 
 <script type="text/javascript">
     $(document).ready(function(){
-        $("#estoques").on('click', ".js-delete", function(){
+        $("#compras").on('click', ".js-delete", function(){
             let button = $(this);
             bootbox.confirm("Confirma a exclusão do registro?",function(result){
                 console.log(result);
                 if(result){
                     $.ajax({
-                        url : "/estoque/delete/" + button.attr("data-id"),
+                        url : "/compra/delete/" + button.attr("data-id"),
                         method: "GET",
                         success : function(){
-                            window.location.href = "/estoque/";
+                            window.location.href = "/compra/";
                         }
                     });
                 }

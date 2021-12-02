@@ -23,7 +23,7 @@
         <div class="card-body">
           <div class="container" th:object="${novopedvenda}">
                 <div class="row">
-                  <div class="col-sm">
+                  <div class="col-sm-6">
                     <label>Produto</label>
                     <select class="form-control" id="slcproduto" th:field="*{produto}">
                       <option th:value="${umproduto.id}"
@@ -32,14 +32,14 @@
                       </option>
                     </select>
                   </div>
-              <div class="col-sm">
+              <div class="col-sm-6" >
                 <label for="txtquantidade">Quantidade</label>
-              </div>
-              <div class="col-sm">
                 <input type="text" class="form-control" id="txtquantidade" th:field="${novopedvenda.quantidade}" placeholder="Quantidade">
               </div>
               <div class="col-sm">
-                <button type="submit" name="insertprod" class="btn btn-primary">Inserir item</button>
+                <div style="padding-top: 1em">
+                  <button type="submit" name="insertprod" class="btn btn-primary">Inserir item</button>
+                </div>
               </div>
             </div>
           </div>
@@ -53,7 +53,7 @@
           <tr>
             <th scope="col">Produto</th>
             <th scope="col">Quantidade</th>
-            <th scope="col"></th>
+            <th scope="col">Valor</th>
           </tr>
           </thead>
           <tbody>

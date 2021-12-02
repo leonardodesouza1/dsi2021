@@ -9,16 +9,16 @@
     <table class="table" id="estoques">
         <thead>
         <tr>
-            <th>Data</th>
             <th>Produto</th>
-            <th>quantidade</th>
+            <th>Quantidade</th>
+            <th>Ultima Modificacao</th>
         </tr>
         </thead>
         <tbody>
         <tr class="table-primary" th:each="estoque : ${objetos}">
-            <td th:text="${estoque.data}"></td>
-            <td th:text="${estoque.produto.nome}"></td>
-            <td th:text="${estoque.quantidade}"></td>
+            <td th:text="${estoque.get('produto').nome}"></td>
+            <td th:text="${estoque.get('quantidade')}"></td>
+            <td th:text="${#dates.format(estoque.get('data'), 'dd/MM/yyyy HH:mm')}"></td>
         </tr>
         </tbody>
     </table>

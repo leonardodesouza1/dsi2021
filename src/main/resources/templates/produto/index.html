@@ -5,7 +5,7 @@
     <body>
         <div class="container">
             <nav th:replace="layout :: menu (buttons = ${ {} })">(menu)</nav>
-            <a th:href="@{/produto/form}" class="btn btn-dark">Novo Produto</a>
+            <a th:href="@{/produto/form}" class="btn btn-dark"> + Novo Produto</a>
 
             <table class="table" id="produtos">
                 <thead>

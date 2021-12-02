@@ -9,8 +9,8 @@ import br.univille.leonardosouzadsi2021.service.GenericService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class EstoqueServiceImpl extends GenericService<MovimentacaoEstoque> {
@@ -25,11 +25,45 @@ public class EstoqueServiceImpl extends GenericService<MovimentacaoEstoque> {
         super(repository);
     }
 
-    public List<MovimentacaoEstoque> getProdutosEstoque() {
+    public List<HashMap<String, Object>> getProdutosEstoque() {
         List<MovimentacaoEstoque> movimentacaoEstoques = estoqueRepository.findAll();
-        List<MovimentacaoEstoque> estoque = new ArrayList<>();
+        List<HashMap<String, Object>> estoque = new ArrayList<>();
         List<Produto> produtos = produtoRepository.findAll();
-        //todo separar por produtos, e fazer lógica de soma/subtração de entrada e saida.
+        for (Iterator<Produto> it = produtos.iterator(); it.hasNext(); ) {
+            Produto produto = it.next();
+            List<MovimentacaoEstoque> movimentacaoProduto = movimentacaoEstoques.stream().
+                    filter(p -> p.getProduto() == produto).collect(Collectors.toList());
+            if(movimentacaoProduto.isEmpty()) {
+                estoque.add(cadastraProdutoEstoque(produto,0,null));
+            } else {
+                int quantidade = calculaQuantidadeEstoque(movimentacaoProduto);
+                estoque.add(cadastraProdutoEstoque(produto, quantidade, movimentacaoProduto.get(0).getData()));
+            }
+        }
         return estoque;
+    }
+
+    public int calculaQuantidadeEstoque(List<MovimentacaoEstoque> movimentacaoProduto) {
+        int quantidade = 0;
+        for (Iterator<MovimentacaoEstoque> it = movimentacaoProduto.iterator(); it.hasNext(); ) {
+            MovimentacaoEstoque mov = it.next();
+            switch (mov.getTipoMovimentacao()) {
+                case SAIDA:
+                    quantidade -= mov.getQuantidade();
+                    break;
+                case ENTRADA:
+                    quantidade += mov.getQuantidade();
+                    break;
+            }
+        }
+        return Math.max(quantidade, 0);
+    }
+
+    public HashMap<String, Object> cadastraProdutoEstoque(Produto produto, int quantidade, Date data) {
+        HashMap<String,Object> info = new HashMap<>();
+        info.put("data",data);
+        info.put("produto",produto);
+        info.put("quantidade",quantidade);
+        return info;
     }
 }
